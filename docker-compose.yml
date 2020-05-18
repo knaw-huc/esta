@@ -6,7 +6,6 @@ networks:
       name: nginxproxynetwork
 
 services:
-
   esta_mysql:
     image: mysql:5.7
     container_name: esta_mysql
@@ -21,8 +20,7 @@ services:
       MYSQL_DATABASE: default_schema
       VIRTUAL_PORT: 3306
     volumes:
-      - ESTAdata:/var/lib/mysql
-      - robTempHome:/home
+      - /data/docker/volumes/ESTAdata/_data/mysql:/var/lib/mysql
     ports:
       - 3306:3306
     networks:
