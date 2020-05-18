@@ -3,7 +3,7 @@
 if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
-class DB_requests extends CI_Model
+class Db_requests extends CI_Model
 {
 
 	function getUser($un, $pw)
@@ -22,11 +22,11 @@ class DB_requests extends CI_Model
 	}
 
 	function insert_user($user) {
-		$this->db->query("INSERT INTO users (chr_name, name, email, admin, active, passwd) VALUES(?, ?, ?, ?, ?, MD5(?))", $user);
+		$this->db->query("INSERT INTO users (chr_name, name, email, username, admin, active, passwd) VALUES(?, ?, ?, ?, ?, ?, MD5(?))", $user);
 	}
 
 	function update_user($user, $id) {
-		$this->db->query("UPDATE users SET chr_name = ?, name = ?, email = ?, admin = ?, active = ? WHERE id = $id", $user);
+		$this->db->query("UPDATE users SET chr_name = ?, name = ?, email = ?, username = ?, admin = ?, active = ? WHERE id = $id", $user);
 	}
 
 	function getUsers()
