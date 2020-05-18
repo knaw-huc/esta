@@ -30,7 +30,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    container_name: soundtoll_application
+    container_name: esta_application
     restart: always
     environment:
       - VIRTUAL_HOST=esta.sd.di.huc.knaw.nl
