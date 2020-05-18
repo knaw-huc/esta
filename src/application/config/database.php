@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'esta_mysql:3307',
+	'hostname' => 'esta_mysql',
 	'username' => 'root',
 	'password' => 'root',
 	'database' => 'esta',
