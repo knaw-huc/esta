@@ -30,7 +30,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    container_name: esta_application
+    container_name: esta_app
     restart: always
     environment:
       - VIRTUAL_HOST=esta.sd.di.huc.knaw.nl
