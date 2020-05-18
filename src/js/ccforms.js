@@ -16,7 +16,7 @@ var editVars = {
 var currentForm = "";
 var currentFormChanged = false;
 
-var home = 'http://www.huc.localhost/esta';
+var home = 'https://esta.sd.di.huc.knaw.nl';
 
 var hucForms = {
 	heSubvoyage: {
