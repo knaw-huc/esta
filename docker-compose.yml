@@ -6,7 +6,7 @@ networks:
       name: nginxproxynetwork
   esta_db:
     external:
-      name: esta_default
+      name: esta
 
 services:
 
