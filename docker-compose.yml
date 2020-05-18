@@ -34,8 +34,6 @@ services:
     restart: always
     environment:
       - VIRTUAL_HOST=esta.sd.di.huc.knaw.nl
-    volumes:
-      - /data/docker/volumes/robTempHome/_data:/home
     links:
       - esta_mysql
     ports:
