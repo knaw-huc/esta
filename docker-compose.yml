@@ -16,7 +16,7 @@ services:
     environment:
       MYSQL_USER: user
       MYSQL_PASSWORD: user
-      MYSQL_ROOT_PASSWORD: bonzo
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: default_schema
       VIRTUAL_PORT: 3307
     volumes:
