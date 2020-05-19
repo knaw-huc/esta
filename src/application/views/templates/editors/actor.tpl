@@ -1,6 +1,6 @@
 <div id="heActor"  data-action="{$actor_action}">
 	<div class="component">
-		<div class="componentHeader">Actor</div>
+		<div id="actorType" class="componentHeader">Actor</div>
 		<div class="element" data-name="actor_name">
 			<div class="label">Name</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value="" id="actor_name"
@@ -62,5 +62,16 @@
 				<div id="errorMsg_5e823fa99afe7" class="errorMsg"></div>
 			</div>
 		</div>
+	</div>
+	<div id="btnFrame">
+		<input type="button" value="Save" id="saveBtn" onclick="saveActor()"/>
+		<input type="button" value="Back" class="resetBtn"/>
+		&nbsp;
+		<input type="button" value="Go top" class="appBtn" onclick="window.scrollTo(0,0)"/>
+		<div class="messageBox">&nbsp;</div>
+		<div id="tmpFormatter">
+			&nbsp;
+		</div>
+		<input id="mutBtn" type="button" value="Mutation history" onclick="alert('This function is not active yet.');"/>
 	</div>
 </div>
