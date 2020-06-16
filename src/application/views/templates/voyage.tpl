@@ -14,7 +14,7 @@
 		</tr>
 		{foreach from=$subvoyages item=subvoyage}
 			<tr class="even">
-				<td id="SV{$subvoyage@index + 1}" class="sea" onclick="set_candidate(this)">SV{$subvoyage@index + 1}</td>
+				<td id="SV{$subvoyage@index + 1}" class="sea" data-id="{$subvoyage.subvoyage_id}" onclick="set_candidate(this)">SV{$subvoyage@index + 1}</td>
 				<td>{$subvoyage.sub_dept_date_year}</td>
 				<td>{$subvoyage.vessel}</td>
 				<td>{$subvoyage.captain}</td>
@@ -28,32 +28,32 @@
 	</table>
 	<br/>
 	<h2>Subvoyage relations</h2>
-	<table id="dependencyTable">
+	<table id="dependencyTable" data-voyage-id="{$voyage_id}">
 		<tr>
 			<th></th>
 			<th></th>
 			<th></th>
 			<th></th>
 		</tr>
-		<tr>
+		<tr class="depRow">
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 		</tr>
-		<tr>
+		<tr class="depRow">
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 		</tr>
-		<tr>
+		<tr class="depRow">
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 		</tr>
-		<tr>
+		<tr class="depRow">
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
@@ -63,6 +63,10 @@
 	<div id="dashBoard">
 		<input type="button" value="Add row" onclick="addRow()"/>
 		<input type="button" value="Add column" onclick="addCol()"/>
-		<input type="button" value="Save" onclick="alert('This function is not implemented yet.')"/>
+		<input type="button" value="Save" onclick="save_dependencies()"/>
 	</div>
+	<div id="gridMessage"></div>
+	<script>
+		get_grid_data();
+	</script>
 {/block}

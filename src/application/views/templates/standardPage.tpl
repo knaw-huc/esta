@@ -22,7 +22,7 @@
 <body>
 <div id="wrapper">
 	<div id="header">
-		ESTA Editor (demo)
+		ESTA Editor (demo, version 2)
 
 		{if $user_name != ""}
 			<div id="user">{$user_name}</div>

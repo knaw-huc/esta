@@ -11,7 +11,8 @@ var editVars = {
 	actor2: 0,
 	cargo: 0,
 	currentCargo: 0,
-	currentActor: ""
+	currentActor: "",
+	mainVoyage: 0
 }
 
 var currentForm = "";
@@ -42,6 +43,10 @@ var hucForms = {
 	heActor: {
 		empty: true,
 		address: home + "/service/get_actor"
+	},
+	heVoyage: {
+		empty: true,
+		address: home + "/service/get_voyage"
 	}
 }
 
@@ -61,13 +66,18 @@ function setEvents() {
 
 	$("#vmMyVoyages").click(
 		function () {
-			alert("This function isn't implemented yet.")
+			if ($("#vmMyVoyages").hasClass("allRecs")) {
+				window.location.assign(home + "/workspace/myvoyages");
+			} else {
+				window.location.assign(home + "/workspace");
+			}
+
 		}
 	)
 
 	$("#vmSearch").click(
 		function () {
-			alert("This function isn't implemented yet.")
+			alert("This function isn't implemented yet.");
 		}
 	)
 
@@ -101,7 +111,7 @@ function hideDetails() {
 	$('#metadataRecs').addClass('noView');
 	$('#voyage').addClass('noView');
 	$("#actorForm").addClass("noView");
-
+	$("#mutView").addClass("noView");
 }
 
 
@@ -119,8 +129,8 @@ function setUserEdit() {
 }
 
 function submitUserEdit() {
-	if ($("#first_name").val().trim() == "" || $("#name").val().trim() == "" || $("#email").val().trim() == "") {
-		$("#loginError").html("Empty fields are not allowed in this form!");
+	if ($("#first_name").val().trim() == "" || $("#name").val().trim() == "" || !validateEmail($("#email").val())) {
+		$("#loginError").html("One or more field values are invalid!");
 	} else {
 		$("#userProfileForm").submit();
 	}
@@ -163,15 +173,17 @@ function setEditors(id) {
 				case 'profileTweakTab':
 					$('#tweakXML').removeClass('noView');
 					setCurrentForm("heVessel");
-					activeTab = "profileTweak";
+					activeTab = "tweakXML";
 					break;
 				case 'profileRecordsTab':
 					$('#metadataRecs').removeClass('noView');
 					setCurrentForm("heCargo");
-					activeTab = "profileRecords";
+					activeTab = "metadataRecs";
 					break;
 				case 'voyageTab':
+					currentForm = "heVoyage";
 					$('#voyage').removeClass('noView');
+					getVoyageData(editVars.mainVoyage);
 					activeTab = "voyage";
 					break;
 			}
@@ -184,6 +196,10 @@ function setEditors(id) {
 		});
 	});
 
+}
+
+function getVoyageData(id) {
+	getData(currentForm, id);
 }
 
 function setCurrentForm(formName) {
@@ -259,6 +275,51 @@ function returnToMainTab() {
 	$("#" + activeTab).removeClass("noView");
 }
 
+function closeMutationView() {
+	hideDetails();
+	clearMutationView();
+	$("#" + activeTab).removeClass("noView");
+}
+
+function clearMutationView() {
+	$(".mutViewRow").remove();
+}
+
+function show_mutations() {
+	hideDetails();
+	getMutationData();
+	$("#mutView").removeClass("noView");
+}
+
+function getMutationData() {
+	switch (currentForm) {
+		case "heSubvoyage":
+			var id = editVars.currentVoyage;
+			var table = "subvoyage";
+			break;
+		case "heSlaves":
+			var id = editVars.slaves;
+			var table = "slaves";
+			break;
+		case "heVessel":
+			var id = editVars.vessel;
+			var table = "vessel";
+			break;
+		case "heCargo":
+			var id = editVars.currentCargo;
+			var table = "cargo";
+			break;
+		case "heActor":
+			var id = editVars.currentActor;
+			var table = "actor";
+			break;
+	}
+	if (id !== undefined) {
+		fetchMutationData(id, table);
+	}
+}
+
+
 function checkSave() {
 	if (currentFormChanged) {
 		alert('You must first save your input.');
@@ -304,7 +365,6 @@ function initCurrentFormMetadata() {
 			}
 			break;
 		case "heActor":
-			console.log(editVars[editVars.currentActor]);
 			getData(currentForm, editVars[editVars.currentActor]);
 
 	}
@@ -329,7 +389,45 @@ function getData(form, id) {
 			}
 		});
 	}
+}
 
+function fetchMutationData(id, table) {
+	$.ajax({
+		type: "POST",
+		url: home + "/service/get_mutation_data",
+		data: {
+			id: id,
+			table: table
+		},
+		success: function (json) {
+			populateMutationView(JSON.parse(json));
+		},
+		error: function (err) {
+			console.log(err);
+		}
+	});
+}
+
+function populateMutationView(json) {
+	for (var key in json) {
+		console.log(key);
+		var row = document.createElement('tr');
+		$(row).append(cell(json[key].tablename));
+		$(row).append(cell(json[key].fieldname));
+		$(row).append(cell(json[key].name));
+		$(row).append(cell(json[key].modification_date));
+		$(row).append(cell(json[key].value_before));
+		$(row).append(cell(json[key].value_after));
+		$(row).addClass("mutViewRow");
+		$("#mutTable").append(row);
+	}
+
+}
+
+function cell(value) {
+	var cell = document.createElement("td");
+	$(cell).html(value);
+	return cell;
 }
 
 function clearForm(form) {
@@ -341,6 +439,10 @@ function clearForm(form) {
 }
 
 function populateForm(form, json) {
+	if (form === 'heVoyage') {
+		fillVoyageForm(json);
+		return;
+	}
 	if (form === 'heSubvoyage') {
 		setEditVars(json);
 	}
@@ -355,6 +457,17 @@ function populateForm(form, json) {
 	setActors(form, json);
 }
 
+function fillVoyageForm(json) {
+	$("#heVoyage").find(".formField").each(
+		function () {
+			var name = $(this).attr("id");
+			if (json[name] !== undefined) {
+				$(this).html(json[name]);
+			}
+		}
+	);
+}
+
 function setEditVars(json) {
 	editVars.currentVoyage = json.subvoyage_id;
 	editVars.slaves = json.sub_slaves;
@@ -364,6 +477,7 @@ function setEditVars(json) {
 	editVars.investor = json.voyage_investor;
 	editVars.outfitter = json.voyage_outfitter;
 	editVars.insurer = json.voyage_insurer;
+	editVars.mainVoyage = json.voyage_id;
 }
 
 function setActors(form, json) {
@@ -379,7 +493,6 @@ function setActors(form, json) {
 }
 
 function addCargos(json) {
-	console.log(editVars);
 	for (var key in editVars.cargo) {
 		var row = document.createElement("tr");
 		var cell = document.createElement("td");
@@ -444,7 +557,6 @@ function setSlaveActors(json) {
  */
 
 function send_data(data, form, id) {
-	console.log(data);
 	$.ajax({
 		type: "POST",
 		url: home + "/service/update_data",
@@ -458,6 +570,7 @@ function send_data(data, form, id) {
 			updateLink(form, ret_id);
 		},
 		error: function (err) {
+			console.log(err);
 			alert("Errors! Data not saved");
 		}
 	});
@@ -508,7 +621,7 @@ function linkActor(actor, id) {
 	var data = {};
 	var key = "";
 
-	switch(actor) {
+	switch (actor) {
 		case "captain":
 			table = "heSubvoyage";
 			dataField = "sub_captain";
@@ -574,11 +687,11 @@ function addCargoToList(id) {
 	resetCargoList();
 	var row = document.createElement("tr");
 	var cell = document.createElement("td");
-	if ($("#cargo_commodity").val().trim() === "") {
+	//if ($("#cargo_commodity").val().trim() === "") {
 		$(cell).html("--New--");
-	} else {
-		$(cell).html($("#cargo_commodity").val());
-	}
+	//} else {
+	//	$(cell).html($("#cargo_commodity").val());
+	//}
 
 	$(row).append(cell);
 	var cell = document.createElement("td");
@@ -665,5 +778,20 @@ function harvestForm(form) {
 	});
 	resetCurrentFormMetadata();
 	return data;
+}
+
+function validateEmail(email) {
+	var re = /\S+@\S+\.\S+/;
+	return re.test(email);
+}
+
+function submitNewPasswd() {
+	if ( validateEmail($("#email").val()) ) {
+		$("#newPasswdForm").submit();
+	} else {
+		$("#nwPasswdMessage").html("This is not a valid email address!");
+		$("#nwPasswdMessage").css('font-weight', 'bold');
+		$("#nwPasswdMessage").css('color', '#b00');
+	}
 }
 

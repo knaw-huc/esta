@@ -83,14 +83,14 @@ class CI_Email {
 	 *
 	 * @var	string
 	 */
-	public $smtp_user	= 'rob.zeeman@di.huc.knaw.nl';
+	public $smtp_user	= '';
 
 	/**
 	 * SMTP Password
 	 *
 	 * @var	string
 	 */
-	public $smtp_pass	= 'Cyan1de_I&A';
+	public $smtp_pass	= '';
 
 	/**
 	 * SMTP Server port

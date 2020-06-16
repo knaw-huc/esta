@@ -3,7 +3,7 @@
 	<h2>Voyages: page {$page} of {$pages} ({$count})</h2>
 	<ul id="voyagesMenu">
 		<li class="appBtn" id="vmCollapser">Expand</li>
-		<li class="appBtn"  id="vmMyVoyages">My (sub)voyages</li>
+		<li class="appBtn {$range}"  id="vmMyVoyages">{if $range == "allRecs"}My (sub)voyages{else}All voyages{/if}</li>
 		<li  class="appBtn" id="vmSearch">Search</li>
 		<li  class="appBtn" id="vmNew">New voyage</li>
 	</ul>
@@ -42,5 +42,10 @@
 				</tr>
 			{/foreach}
 		{/foreach}
+		{*<tr id="voyageBrowser">
+			<td colspan="3" id="voyageBrowserPrev">previous</td>
+			<td colspan="3" id="voyageBrowserPage"></td>
+			<td colspan="2" id="voyageBrowserNext">next</td>
+		</tr>*}
 	</table>
 {/block}
