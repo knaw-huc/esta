@@ -5,7 +5,6 @@
 			<div class="label">Type</div>
 			<div class="control"><select id="subvoyage_type" data-validation-profile="5eaac4f83b67e"
 										 class="input_element">
-					<option value="">--</option>
 					<option value="sea">sea</option>
 					<option value="land">land</option>
 				</select>
@@ -39,24 +38,24 @@
 		<div class="element" data-name="sub_dept_place_standardized">
 			<div class="label">Place of departure standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_dept_place_standardized" data-validation-profile="5eaac4f83b6d2"
-										class="input_element">
+										id="sub_dept_place_standardized" data-table="slaves" data-validation-profile="5eaac4f83b6d2"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b6d2" class="errorMsg"></div>
 			</div>
 		</div>
 		<div class="element" data-name="sub_dept_region_standardized">
 			<div class="label">Region of departure standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_dept_region_standardized" data-validation-profile="5eaac4f83b6d7"
-										class="input_element">
+										id="sub_dept_region_standardized" data-table="slaves" data-validation-profile="5eaac4f83b6d7"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b6d7" class="errorMsg"></div>
 			</div>
 		</div>
 		<div class="element" data-name="sub_dept_polity_standardized">
 			<div class="label">Polity of departure standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_dept_polity_standardized" data-validation-profile="5eaac4f83b6dd"
-										class="input_element">
+										id="sub_dept_polity_standardized" data-table="slaves" data-validation-profile="5eaac4f83b6dd"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b6dd" class="errorMsg"></div>
 			</div>
 		</div>
@@ -135,24 +134,24 @@
 		<div class="element" data-name="sub_arrival_place_standardized">
 			<div class="label">Place of arrival standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_arrival_place_standardized" data-validation-profile="5eaac4f83b711"
-										class="input_element">
+										id="sub_arrival_place_standardized" data-table="slaves" data-validation-profile="5eaac4f83b711"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b711" class="errorMsg"></div>
 			</div>
 		</div>
 		<div class="element" data-name="sub_arrival_region_standardized">
 			<div class="label">Region of arrival standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_arrival_region_standardized" data-validation-profile="5eaac4f83b717"
-										class="input_element">
+										id="sub_arrival_region_standardized" data-table="slaves" data-validation-profile="5eaac4f83b717"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b717" class="errorMsg"></div>
 			</div>
 		</div>
 		<div class="element" data-name="sub_arrival_polity_standardized">
 			<div class="label">Polity of arrival standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_arrival_polity_standardized" data-validation-profile="5eaac4f83b71c"
-										class="input_element">
+										id="sub_arrival_polity_standardized" data-table="slaves" data-validation-profile="5eaac4f83b71c"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b71c" class="errorMsg"></div>
 			</div>
 		</div>
@@ -281,40 +280,17 @@
 	</div>
 	<div id="btnFrame">
 		<input type="button" value="Save" id="saveBtn" onclick="saveSubVoyage()"/>
-		<input type="button" value="Back" class="resetBtn"/>
+		<input type="button" value="Back" class="resetBtn" onclick="history.back()"/>
 		&nbsp;
 		<input type="button" value="Go top" class="appBtn" onclick="window.scrollTo(0,0)"/>
 		<div class="messageBox">&nbsp;</div>
 		<div id="tmpFormatter">
-			<table class="resultTable">
+			<table id="voyageActorTable" class="resultTable">
 				<tr>
 					<th>Actors</th>
 					<th></th>
 					<th></th>
-				</tr>
-				<tr id="captainRow">
-					<td>Captain</td>
-					<td id="captainCell"></td>
-					<td class="editIcon"><img src="{$home_path}img/edit.png" height="16px" width="16px" onclick="editCaptain()">
-					</td>
-				</tr>
-				<tr id="outfitterRow">
-					<td>Outfitter</td>
-					<td id="outfitterCell"></td>
-					<td class="editIcon"><img src="{$home_path}img/edit.png" height="16px" width="16px" onclick="editOutfitter()">
-					</td>
-				</tr>
-				<tr id="investorRow">
-					<td>Investor</td>
-					<td id="investorCell"></td>
-					<td class="editIcon"><img src="{$home_path}img/edit.png" height="16px" width="16px" onclick="editInvestor()">
-					</td>
-				</tr>
-				<tr id="insurerRow">
-					<td>Insurer</td>
-					<td id="insurerCell"></td>
-					<td class="editIcon"><img src="{$home_path}img/edit.png" height="16px" width="16px" onclick="editInsurer()">
-					</td>
+					<th><a href="javascript:new_actor('voyageActor', editVars.currentVoyage)">+</a></th>
 				</tr>
 			</table>
 		</div>

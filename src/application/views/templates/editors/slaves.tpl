@@ -164,8 +164,8 @@
 		</div>
 		<div class="element" data-name="slaves_type_standardized">
 			<div class="label">Type standardised</div>
-			<div class="control"><input type="text" size="45" data-reset-value="line" value="" id="slaves_type_standardized"
-										data-validation-profile="5e823fa99ba45" class="input_element">
+			<div class="control"><input type="text" size="45" data-reset-value="line" value="" id="slaves_type_standardized" data-table="slaves"
+										data-validation-profile="5e823fa99ba45" class="input_element" data-auto="yes">
 				<div id="errorMsg_5e823fa99ba45" class="errorMsg"></div>
 			</div>
 		</div>
@@ -193,28 +193,17 @@
 	</div>
 	<div id="btnFrame">
 		<input type="button" value="Save" id="slaveSaveBtn" onclick="saveSlaves();"/>
-		<input type="button" value="Back" class="resetBtn"/>
+		<input type="button" value="Back" class="resetBtn" onclick="history.back()"/>
 		&nbsp;
 		<input type="button" value="Go top" class="appBtn" onclick="window.scrollTo(0,0)"/>
 		<div class="messageBox">&nbsp;</div>
 		<div id="tmpFormatter">
-			<table class="resultTable">
+			<table id="slavesActorTable" class="resultTable">
 				<tr>
 					<th>Actors</th>
 					<th></th>
 					<th></th>
-				</tr>
-				<tr>
-					<td>Actor 1</td>
-					<td id="slaveMainActorCell"></td>
-					<td class="editIcon"><img src="{$home_path}img/edit.png" height="16px" width="16px" onclick="editSlaveActor1()">
-					</td>
-				</tr>
-				<tr>
-					<td>Actor 2</td>
-					<td id="slaveSecondActorCell"></td>
-					<td class="editIcon"><img src="{$home_path}img/edit.png" height="16px" width="16px" onclick="editSlaveActor2()">
-					</td>
+					<th><a href="javascript:new_actor('slavesActor', editVars.slaves)">+</a></th>
 				</tr>
 			</table>
 		</div>

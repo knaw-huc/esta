@@ -37,15 +37,61 @@ class Db_requests extends CI_Model
 		return $users->result_array();
 	}
 
-	function getVoyages($id = null)
+	function valueExists($field, $value, $id) {
+		$params = array($value);
+		if ($id == "new") {
+			$result = $this->db->query("SELECT id FROM users WHERE $field = ?", $params)->result_array();
+		} else {
+			$result = $this->db->query("SELECT id FROM users WHERE id <> $id AND $field = ?", $params)->result_array();
+		}
+
+		if (count($result)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function deleteVoyage($id, $user) {
+		return $this->db->query("UPDATE voyage SET deleted = 1 WHERE voyage_id = $id AND created_by = $user");
+	}
+
+	function deleteSubVoyage($id, $user) {
+		return $this->db->query("UPDATE subvoyage SET deleted = 1, deleted_by = $user WHERE subvoyage_id = $id ");
+	}
+
+	function deleteActor($id) {
+		if ($this->db->query("DELETE FROM free_actors WHERE actor_id = $id LIMIT 1"))
+		{
+			return $this->db->query("DELETE FROM actor WHERE actor_id = $id LIMIT 1");
+		} else {
+			return false;
+		}
+	}
+
+	function deleteCargo($id) {
+		return $this->db->query("DELETE FROM cargo WHERE cargo_id = $id");
+	}
+
+	function getDeletedSubvoyages($id) {
+		$sql = "SELECT s.subvoyage_id, s.subvoyage_type, s.sub_dept_date_year, IFNULL(v.vessel_name, '--') as vessel, s.sub_dept_place, s.sub_arrival_place, CONCAT(chr_name , ' ', name) AS username  FROM `subvoyage` as s LEFT JOIN vessel as v ON s.sub_vessel = v.vessel_id LEFT JOIN users AS u ON s.deleted_by = u.id WHERE s.voyage_id = $id AND deleted";
+		return $this->db->query($sql)->result_array();
+	}
+
+	function undeleteSubvoyages($range) {
+		$sql = "UPDATE subvoyage SET deleted = 0, deleted_by = 0 WHERE subvoyage_id IN ($range)";
+		$this->db->query($sql);
+	}
+
+	function getVoyages($start, $offset, $id = null)
 	{
 		$result = array();
 		if (is_null($id)) {
-			$result["count"] = $this->count_recs("voyage", 1);
-			$result["voyages"] = $this->getSubvoyages($this->getRecords("v.voyage_id, v.summary, v.year, DATE_FORMAT(`last_mutation`, \"%d-%m-%Y\") as last_mutation, CONCAT(u.chr_name, ' ', u.name) as creator, CONCAT(us.chr_name, ' ', us.name) AS modifier", "voyage as v, users as u, users as us", "v.created_by = u.id and v.modified_by = us.id"));
+			$result["count"] = $this->count_recs("voyage", "NOT deleted");
+			$result["voyages"] = $this->getSubvoyages($this->getRecords("v.voyage_id, v.summary,  v.created_by, v.year, DATE_FORMAT(`last_mutation`, \"%d-%m-%Y\") as last_mutation, CONCAT(u.chr_name, ' ', u.name) as creator, CONCAT(us.chr_name, ' ', us.name) AS modifier", "voyage as v, users as u, users as us", "NOT v.deleted AND v.created_by = u.id AND v.modified_by = us.id ORDER BY v.voyage_id LIMIT $start, $offset"));
 		} else {
-			$result["count"] = $this->count_recs("voyage", "created_by = $id");
-			$result["voyages"] = $this->getSubvoyages($this->getRecords("v.voyage_id, v.summary, v.year, DATE_FORMAT(`last_mutation`, \"%d-%m-%Y\") as last_mutation, CONCAT(u.chr_name, ' ', u.name) as creator, CONCAT(us.chr_name, ' ', us.name) AS modifier", "voyage as v, users as u, users as us", "v.created_by = $id and v.created_by = u.id and v.modified_by = us.id"));
+			$result["count"] = $this->count_recs("voyage", "created_by = $id AND NOT deleted");
+			$result["voyages"] = $this->getSubvoyages($this->getRecords("v.voyage_id, v.summary, v.year, v.created_by, DATE_FORMAT(`last_mutation`, \"%d-%m-%Y\") as last_mutation, CONCAT(u.chr_name, ' ', u.name) as creator, CONCAT(us.chr_name, ' ', us.name) AS modifier", "voyage as v, users as u, users as us", "v.created_by = $id AND NOT v.deleted AND v.created_by = u.id and v.modified_by = us.id LIMIT $start, $offset"));
 		}
 		return $result;
 	}
@@ -61,6 +107,17 @@ class Db_requests extends CI_Model
 			return $result[0]["grid"];
 		} else {
 			return json_encode(array("count" => 0));
+		}
+	}
+
+	function getStandardValues($table, $field, $value) {
+		$params = array($value . '%');
+		try {
+			$result = $this->db->query("SELECT DISTINCT $field AS value, $field AS data FROM $table WHERE $field LIKE ?", $params)->result_array();
+			$retArray = array("query" => "Unit", "suggestions" => $result);
+			return $retArray;
+		} catch (Exception $e) {
+			return 0;
 		}
 	}
 
@@ -91,7 +148,12 @@ class Db_requests extends CI_Model
 
 	function getSubvoyagerecords($voyage_id)
 	{
-		$sql = "SELECT s.subvoyage_id, s.sub_dept_date_year, IFNULL(a.actor_name, '--') as captain, IFNULL(v.vessel_name, '--') as vessel, s.sub_dept_place, s.sub_arrival_place  FROM `subvoyage` as s LEFT JOIN vessel as v ON s.sub_vessel = v.vessel_id LEFT JOIN actor as a ON s.sub_captain = a.actor_id WHERE s.voyage_id = $voyage_id";
+		$sql = "SELECT s.subvoyage_id, s.subvoyage_type, s.sub_dept_date_year, IFNULL(a.actor_name, '--') as captain, IFNULL(v.vessel_name, '--') as vessel, s.sub_dept_place, s.sub_arrival_place FROM `subvoyage` as s LEFT JOIN vessel as v ON s.sub_vessel = v.vessel_id LEFT JOIN (SELECT f.type_id, a.actor_name FROM free_actors as f, `actor` as a WHERE f.type = 'voyage' AND f.actor_id = a.actor_id AND (a.actor_role = 'captain' OR a.actor_role_standardised = 'captain' )) AS a ON s.subvoyage_id = a.type_id WHERE s.voyage_id = $voyage_id AND NOT deleted";
+		return $this->db->query($sql)->result_array();
+	}
+
+	function getActors($id, $type) {
+		$sql = "SELECT a.actor_id, a.actor_name, a.actor_role FROM free_actors AS f, actor AS a WHERE f.type ='$type' AND f.type_id = $id AND f.actor_id = a.actor_id";
 		return $this->db->query($sql)->result_array();
 	}
 
@@ -105,7 +167,7 @@ class Db_requests extends CI_Model
 		return $this->db->query("SELECT $fields FROM $table WHERE $conditions")->result_array();
 	}
 
-	private function count_recs($table, $conditions)
+	function count_recs($table, $conditions)
 	{
 		return $this->db->query("SELECT COUNT(*) AS amount FROM $table WHERE $conditions")->row()->amount;
 	}
@@ -253,6 +315,20 @@ class Db_requests extends CI_Model
 		$voyage_id = $this->session->voyage;
 		$this->db->query("INSERT INTO subvoyage (voyage_id) VALUES($voyage_id)");
 		return $this->db->insert_id();
+	}
+
+	function getSlaveActors($id) {
+		$sql = "SELECT a.actor_id, a.actor_name, a.actor_role FROM free_actors AS f, actor AS a WHERE f.type = 'slaves' AND f.type_id = $id AND f.actor_id = a.actor_id";
+		return $this->db->query($sql)->result_array();
+	}
+
+	function getcargoActors($id) {
+		$sql = "SELECT a.actor_id, a.actor_name, a.actor_role FROM free_actors AS f, actor AS a WHERE f.type = 'cargo' AND f.type_id = $id AND f.actor_id = a.actor_id";
+		return $this->db->query($sql)->result_array();
+	}
+
+	function deleteCargoActors($id) {
+		return $this->db->query("delete actor, free_actors FROM actor INNER JOIN free_actors on actor.actor_id = free_actors.actor_id WHERE free_actors.type = 'cargo' and free_actors.type_id = $id");
 	}
 
 

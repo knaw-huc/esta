@@ -21,6 +21,7 @@ services:
       VIRTUAL_PORT: 3307
     volumes:
       - /data/docker/volumes/ESTAdata/_data/mysql:/var/lib/mysql
+      - /data/docker/volumes/robTempHome/_data:/home
     ports:
       - 3307:3306
     networks:

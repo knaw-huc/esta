@@ -9,20 +9,23 @@
 	<script type="text/javascript" src="{$home_path}js/jquery-3.2.1.min.js"></script>
 	<script type="text/javascript" src="{$home_path}js/ccforms.js"></script>
 	<script type="text/javascript" src="{$home_path}js/dep_grid.js"></script>
+	<script type="text/javascript" src="{$home_path}js/jquery.autocomplete.js"></script>
 	<link href="{$home_path}css/jmenu.css" rel="stylesheet" type="text/css"/>
+	<link href="{$home_path}css/autocomplete.css" rel="stylesheet" type="text/css"/>
 	<script src="{$home_path}js/jmenu.js"></script>
 	<script>
 		$('document').ready(function () {literal}{{/literal}
 			setEvents();
 			{if isset($voyage_ed)}setEditors({$id});{/if}
 			$('#jmenu').jmenu();
+			createAutoCompletes();
 			{literal}}{/literal});
 	</script>
 </head>
 <body>
 <div id="wrapper">
 	<div id="header">
-		ESTA Editor (demo, version 2)
+		ESTA Editor (demo)
 
 		{if $user_name != ""}
 			<div id="user">{$user_name}</div>
@@ -32,7 +35,7 @@
 			<div id="menu-items">
 				<ul id="jmenu">
 					<li><a href="{$home_path}workspace">Home</a></li>
-					<li><a href="{$home_path}workspace">Voyages</a></li>
+					<li><a href="{$home_path}workspace/voyages">Voyages</a></li>
 					<li><a href="{$home_path}workspace">My profile</a>
 						<ul>
 							<li><a href="{$home_path}workspace/user_profile">Profile</a></li>

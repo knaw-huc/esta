@@ -51,6 +51,15 @@ color: #44444f;
 font-size: 18px;
 }
 
+h3{
+color: #44444f;
+margin: 10px 0 4px 0;
+}
+
+h3:first-of-type {
+padding-top: 30px;
+}
+
 #menu {
 position: absolute;
 left: 400px;
@@ -154,25 +163,25 @@ table {
 empty-cells: show;
 }
 
-.resultTable, #dependencyTable, #cargoTable, #mutTable {
+.resultTable, #dependencyTable, #cargoTable, #cargoActorTable, #mutTable, #slavesActorTable, #voyageActorTable {
 border-collapse: collapse;
 }
 
-.resultTable tr, #dependencyTable tr, #cargoTable tr, #mutTable tr {
+.resultTable tr, #dependencyTable tr, #cargoTable tr, #cargoActorTable tr, #mutTable tr, #slavesActorTable tr, #voyageActorTable tr {
 border-top: 1px solid #555;
 border-left: 1px solid #555;
 border-right: 1px solid #555;
 }
 
-.resultTable, #dependencyTable, #cargoTable, #mutTable {
+.resultTable, #dependencyTable, #cargoTable, #cargoActorTable, #mutTable, #slavesActorTable, #voyageActorTable {
 border-bottom: 1px solid #555;
 }
 
-#btnFrame .resultTable tr td, #cargoTable tr td, #mutTable tr td {
+#btnFrame .resultTable tr td, #cargoTable tr td, #cargoActorTable tr td, #mutTable tr td, #slavesActorTable tr td, #voyageActorTable tr td {
 background-color: #ffffff;
 }
 
-#btnFrame .resultTable, #cargoTable {
+#btnFrame .resultTable, #cargoTable, #cargoActorTable, #slavesActorTable, #voyageActorTable {
 width: 90%;
 }
 
@@ -189,6 +198,7 @@ width: 20px;
 .resultTable tr:hover {
 color: #777;
 }
+
 
 #tmpFormatter {
 margin: 10px 0 20px 10px;
@@ -208,17 +218,19 @@ border-right: none;
 }
 
 
-.resultTable tr td, .resultTable tr th, #cargoTable tr td, #cargoTable tr th, #mutTable tr th, #mutTable tr td {
+.resultTable tr td, .resultTable tr th, #cargoTable tr td, #cargoTable tr th, #cargoActorTable tr td, #cargoActorTable tr th, #mutTable tr th, #mutTable tr td, #slavesActorTable tr td, #slavesActorTable, tr th, #voyageActorTable tr th {
 padding: 4px 16px 4px 6px;
 }
 
-.resultTable tr th, #dependencyTable tr th, #cargoTable tr th, #mutTable tr th {
+.resultTable tr th, #dependencyTable tr th, #cargoTable tr th, #cargoActorTable tr th, #mutTable tr th, #slavesActorTable tr th, #voyageActorTable tr th {
 color: #fff;
 background-color: #5c5c6a;
 }
 
-.resultTable tr th a , #cargoTable tr th a{
+.resultTable tr th a , #cargoTable tr th a, #cargoActorTable tr th a, #slavesActorTable tr th a, #voyageActorTable tr th a{
 color: #ffffff;
+border: 1px solid #ffffff;
+padding: 0 4px;
 }
 
 .itemGrid {
@@ -289,6 +301,11 @@ background-color: #d0d0d4 !important;
 display: none;
 }
 
+#noCargos {
+margin: 10px 0 0 40px;
+font-size: 16px;
+}
+
 #homeBtn {
 position: absolute;
 top: 15px;
@@ -353,7 +370,7 @@ background-color: #b29766;
 margin-top: 20px;
 }
 
-#dashBoard input[type="button"] {
+#dashBoard input[type="button"], button, input[type="submit"] {
 font-weight: bold;
 background-color: #5c5c6a;
 color: #FFFFFF;
@@ -372,10 +389,9 @@ padding: 6px 0 6px 12px;
 display: block;
 }
 
-
 #loginForm {
 display: table;
-margin: 100px auto;
+margin: 6px auto;
 }
 
 #formRow {
@@ -389,6 +405,12 @@ padding-bottom: 20px;
 
 .formLabel {
 width: 120px;
+font-weight: bold;
+color: #44444f;
+}
+
+
+.loginFormLabel {
 font-weight: bold;
 color: #44444f;
 }
@@ -456,13 +478,41 @@ display: none;
 max-width: 800px;
 }
 
+.homeComponent {
+display: inline-block;
+width: 60%;
+padding: 0 160px 0 0;
+vertical-align: top;
+font-size: 1.2em;
+}
+
+#homeContent{
+vertical-align: top;
+}
+
 #ccform1, #ccform2 {
 display: block;
 }
 
 #forgotPasswd {
-margin-left: 54px;
+display:block;
+margin-top: 10px;
 color: #778;
+}
+
+#loginFrame {
+border: 1px solid #000;
+border-radius: 6px;
+background-color: #dedede;
+display: inline-block;
+width: 240px;
+margin-left: 40px;
+margin-top: 56px;
+padding: 0;
+}
+
+#loginBtn{
+margin-top: 4px;
 }
 
 .message {
@@ -484,14 +534,39 @@ margin: 20px 0;
 
 #voyageBrowserNext, #voyageBrowserPrev {
 font-weight:  bold;
+padding-top: 16px;
 }
 
 #voyageBrowser{
 border-top: 1px solid #555;
+border-left:0;
+border-right: 0;
 }
 
 #voyageBrowserNext {
 text-align: right;
+}
+
+#voyageList {
+border-bottom: 0;
+}
+
+.userFormError {
+padding-top: 4px;
+font-weight: bold;
+color: #B00;
+}
+
+.withPointer {
+cursor: pointer;
+}
+
+.interMediateBin, .hiddenBin {
+display: none;
+}
+
+.toBeSaved:after {
+content: " *" !important;
 }
 
 

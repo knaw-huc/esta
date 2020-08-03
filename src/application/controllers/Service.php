@@ -12,10 +12,7 @@ class Service extends CI_Controller
 		if ($this->input->post("id")) {
 			$subvoyage = $this->fetch->getSubVoyageForEdit($this->input->post("id"));
 			if (count($subvoyage)) {
-				$subvoyage["ac_captain_name"] = $this->fetch->getActorName($subvoyage["sub_captain"]);
-				$subvoyage["ac_outfitter_name"] = $this->fetch->getActorName($subvoyage["voyage_outfitter"]);
-				$subvoyage["ac_investor_name"] = $this->fetch->getActorName($subvoyage["voyage_investor"]);
-				$subvoyage["ac_insurer_name"] = $this->fetch->getActorName($subvoyage["voyage_insurer"]);
+				$subvoyage["actors"] = $this->fetch->getActors($this->input->post("id"), 'voyage');
 				$subvoyage["sub_cargo"] = $this->fetch->getCargoOfSubVoyage($this->input->post("id"));
 				$this->session->set_userdata("subvoyage", $this->input->post("id"));
 				$this->send_json($subvoyage);
@@ -27,6 +24,22 @@ class Service extends CI_Controller
 		}
 	}
 
+	function check_existence() {
+		if ($this->input->post("field")) {
+			$arr =  $this->fetch->checkExistence($this->input->post("field"), $this->input->post("value"));
+			$this->send_json($arr);
+		} else {
+			$this->throw_error();
+		}
+	}
+
+	function add_actor() {
+		if ($this->input->post("id") && $this->input->post("actor_type")) {
+			$id = $this->fetch->insert_data("", "actor", array());
+			$this->fetch->insert_data("", "free_actors", array("type" => $this->input->post("actor_type"), "actor_id" => $id , "type_id" => $this->input->post("id")));
+			$this->send_json($id);
+		}
+	}
 
 	function update_data() {
 		$id = $this->input->post("id");
@@ -46,8 +59,7 @@ class Service extends CI_Controller
 		if ($this->input->post("id")) {
 			$slaves = $this->fetch->getSlavesForEdit($this->input->post("id"));
 			if (count($slaves)) {
-				$slaves["ac_main_actor"] = $this->fetch->getActorName($slaves["main_actor_id"]);
-				$slaves["ac_second_actor"] = $this->fetch->getActorName($slaves["actor_id2"]);
+				$slaves["actors"] = $this->fetch->getSlaveActors($this->input->post("id"));
 				$this->send_json($slaves);
 			} else {
 				$this->throw_error("Slave info does not exist");
@@ -69,6 +81,9 @@ class Service extends CI_Controller
 	function get_cargo() {
 		if ($this->input->post("id")) {
 			$cargo = $this->fetch->getCargoForEdit($this->input->post("id"));
+			if (count($cargo)) {
+				$cargo["actors"] = $this->fetch->getCargoActors($this->input->post("id"));
+			}
 			$this->send_json($cargo);
 		} else {
 			$this->throw_error();
@@ -88,6 +103,30 @@ class Service extends CI_Controller
 		if ($this->input->post("id")) {
 			$voyage = $this->fetch->getVoyage($this->input->post("id"));
 			$this->send_json($voyage);
+		} else {
+			$this->throw_error();
+		}
+	}
+
+	function delete_actor() {
+		if ($this->input->post("id")) {
+			if ($this->fetch->deleteActor($this->input->post("id"))) {
+				$this->send_json(array("status" => "OK"));
+			} else {
+				$this->throw_error();
+			}
+		} else {
+			$this->throw_error();
+		}
+	}
+
+	function delete_cargo() {
+		if ($this->input->post("id")) {
+			if ($this->fetch->deleteCargo($this->input->post("id")) && $this->fetch->deleteCargoActors($this->input->post("id"))) {
+				$this->send_json(array("status" => "OK"));
+			} else {
+				$this->throw_error();
+			}
 		} else {
 			$this->throw_error();
 		}
@@ -120,6 +159,46 @@ class Service extends CI_Controller
 			$this->throw_error();
 		}
 	}
+
+	function get_standard_values($table = "", $field = "") {
+		if ($table == "" || $field == "") {
+			$this->throw_error();
+		} else {
+			$value = $this->input->post("q");
+			$result = $this->fetch->getStandardValues($table, $field, $value);
+			if ($result) {
+				$this->send_json($result);
+			} else {
+				$this->throw_error();
+			}
+		}
+	}
+
+	function delete_voyage($id) {
+		if ($this->session->logged_in) {
+			if ($this->fetch->deleteVoyage($id, $this->session->id)) {
+				$this->send_json(array("status" => "OK"));
+			} else {
+				$this->throw_error();
+			}
+		} else {
+			$this->throw_error();
+		}
+	}
+
+	function delete_subvoyage($id) {
+		if ($this->session->logged_in) {
+			if ($this->fetch->deleteSubVoyage($id, $this->session->id)) {
+				$this->send_json(array("status" => "OK"));
+			} else {
+				$this->throw_error();
+			}
+		} else {
+			$this->throw_error();
+		}
+	}
+
+
 
 	private function get_key($form) {
 		$keys = array(
