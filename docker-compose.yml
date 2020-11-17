@@ -17,11 +17,10 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: user
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: default_schema
+      MYSQL_DATABASE: esta
       VIRTUAL_PORT: 3307
     volumes:
-      - /data/docker/volumes/ESTAdata/_data/mysql:/var/lib/mysql
-      - /data/docker/volumes/robTempHome/_data:/home
+      - /home/robz/:/home
     ports:
       - 3307:3306
     networks:
