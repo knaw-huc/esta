@@ -35,6 +35,8 @@ services:
     restart: always
     environment:
       - VIRTUAL_HOST=esta.sd.di.huc.knaw.nl
+    volumes:
+      - /home/robz/:/home
     links:
       - esta_mysql
     ports:
