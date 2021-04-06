@@ -41,6 +41,15 @@ class Service extends CI_Controller
 		}
 	}
 
+	function add_group() {
+		if ($this->input->post("slaves_id")) {
+			$id = $this->fetch->insert_data("", "slaves_group", array("slaves_id" => $this->input->post("slaves_id")));
+			$this->send_json($id);
+		} else {
+			$this->throw_error();
+		}
+	}
+
 	function update_data() {
 		$id = $this->input->post("id");
 		$data = json_decode($this->input->post("data"), true);
@@ -60,6 +69,7 @@ class Service extends CI_Controller
 			$slaves = $this->fetch->getSlavesForEdit($this->input->post("id"));
 			if (count($slaves)) {
 				$slaves["actors"] = $this->fetch->getSlaveActors($this->input->post("id"));
+				$slaves["groups"] = $this->fetch->getSlaveGroups($this->input->post("id"));
 				$this->send_json($slaves);
 			} else {
 				$this->throw_error("Slave info does not exist");
@@ -90,6 +100,18 @@ class Service extends CI_Controller
 		}
 	}
 
+	function get_slave_group() {
+		if ($this->input->post("id")) {
+			$group = $this->fetch->getSlaveGroupForEdit($this->input->post("id"));
+			if (count($group)) {
+				$group["actors"] = $this->fetch->getSlaveGroupActors($this->input->post("id"));
+			}
+			$this->send_json($group);
+		} else {
+			$this->throw_error();
+		}
+	}
+
 	function get_actor() {
 		if ($this->input->post("id")) {
 			$actor = $this->fetch->getActorForEdit($this->input->post("id"));
@@ -111,6 +133,18 @@ class Service extends CI_Controller
 	function delete_actor() {
 		if ($this->input->post("id")) {
 			if ($this->fetch->deleteActor($this->input->post("id"))) {
+				$this->send_json(array("status" => "OK"));
+			} else {
+				$this->throw_error();
+			}
+		} else {
+			$this->throw_error();
+		}
+	}
+
+	function delete_group() {
+		if ($this->input->post("id")) {
+			if ($this->fetch->deleteGroup($this->input->post("id"))) {
 				$this->send_json(array("status" => "OK"));
 			} else {
 				$this->throw_error();
@@ -198,6 +232,17 @@ class Service extends CI_Controller
 		}
 	}
 
+	function update_global_voyage() {
+		$id = $this->input->post("id");
+		$summary = $this->input->post("summary");
+		$year = $this->input->post("year");
+		if ($this->fetch->update_global_voyage($id, $summary, $year)) {
+			return $this->send_json(array("msg" => "OK"));
+		} else {
+			$this->throw_error();
+		}
+	}
+
 
 
 	private function get_key($form) {
@@ -207,6 +252,7 @@ class Service extends CI_Controller
 			"heSlaves" => "slaves_id",
 			"heCargo" => "cargo_id",
 			"heActor" => "actor_id",
+			'heSlaveGroup' => "group_id"
 		);
 		return $keys[$form];
 	}
@@ -218,6 +264,7 @@ class Service extends CI_Controller
 			"heSlaves" => "slaves",
 			"heCargo" => "cargo",
 			"heActor" => "actor",
+			'heSlaveGroup' => "slaves_group"
 		);
 		return $tables[$form];
 	}

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.32, created on 2020-05-18 08:06:12
+/* Smarty version 3.1.32, created on 2020-07-11 18:56:06
   from '/Library/WebServer/Documents/esta/application/views/templates/voyage.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.32',
-  'unifunc' => 'content_5ec225d4c0f485_37405109',
+  'unifunc' => 'content_5f09ef267e1d77_84514006',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '69526d4fd7a0c5ab00e32a42ee8f1cad0075f4c8' => 
     array (
       0 => '/Library/WebServer/Documents/esta/application/views/templates/voyage.tpl',
-      1 => 1589781800,
+      1 => 1594486551,
       2 => 'file',
     ),
   ),
@@ -20,24 +20,24 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5ec225d4c0f485_37405109 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5f09ef267e1d77_84514006 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_loadInheritance();
 $_smarty_tpl->inheritance->init($_smarty_tpl, true);
 ?>
 
 <?php 
-$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_11066347625ec225d4bf8d60_01347904', "content");
+$_smarty_tpl->inheritance->instanceBlock($_smarty_tpl, 'Block_3155237455f09ef267d0805_46243895', "content");
 ?>
 
 <?php $_smarty_tpl->inheritance->endChild($_smarty_tpl, "standardPage.tpl");
 }
 /* {block "content"} */
-class Block_11066347625ec225d4bf8d60_01347904 extends Smarty_Internal_Block
+class Block_3155237455f09ef267d0805_46243895 extends Smarty_Internal_Block
 {
 public $subBlocks = array (
   'content' => 
   array (
-    0 => 'Block_11066347625ec225d4bf8d60_01347904',
+    0 => 'Block_3155237455f09ef267d0805_46243895',
   ),
 );
 public function callBlock(Smarty_Internal_Template $_smarty_tpl) {
@@ -67,7 +67,9 @@ $__foreach_subvoyage_0_saved = $_smarty_tpl->tpl_vars['subvoyage'];
 ?>
 			<tr class="even">
 				<td id="SV<?php echo $_smarty_tpl->tpl_vars['subvoyage']->index+1;?>
-" class="sea" onclick="set_candidate(this)">SV<?php echo $_smarty_tpl->tpl_vars['subvoyage']->index+1;?>
+" class="<?php echo $_smarty_tpl->tpl_vars['subvoyage']->value['subvoyage_type'];?>
+" data-id="<?php echo $_smarty_tpl->tpl_vars['subvoyage']->value['subvoyage_id'];?>
+" onclick="set_candidate(this)">SV<?php echo $_smarty_tpl->tpl_vars['subvoyage']->index+1;?>
 </td>
 				<td><?php echo $_smarty_tpl->tpl_vars['subvoyage']->value['sub_dept_date_year'];?>
 </td>
@@ -79,12 +81,13 @@ $__foreach_subvoyage_0_saved = $_smarty_tpl->tpl_vars['subvoyage'];
 </td>
 				<td><?php echo $_smarty_tpl->tpl_vars['subvoyage']->value['sub_arrival_place'];?>
 </td>
-				<td><a href="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
-workspace/edit_voyage/<?php echo $_smarty_tpl->tpl_vars['subvoyage']->value['subvoyage_id'];?>
-"><img src="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
-img/edit.png" height="16px" width="16px"></a></td>
-				<td><a href="" title="Delete profile"><img src="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
-img/bin.png" height="16px" width="16px"></a>
+				<td><img src="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
+img/edit.png"  class="withPointer" height="16px" width="16px" onclick="edit_voyage('<?php echo $_smarty_tpl->tpl_vars['subvoyage']->value['subvoyage_id'];?>
+')"></td>
+				<td><img id="bin<?php echo $_smarty_tpl->tpl_vars['subvoyage']->value['subvoyage_id'];?>
+"  class="withPointer" src="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
+img/bin.png" height="16px" width="16px" onclick="delete_subvoyage('<?php echo $_smarty_tpl->tpl_vars['subvoyage']->value['subvoyage_id'];?>
+')">
 				</td>
 			</tr>
 		<?php
@@ -95,32 +98,33 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 	</table>
 	<br/>
 	<h2>Subvoyage relations</h2>
-	<table id="dependencyTable">
+	<table id="dependencyTable" data-voyage-id="<?php echo $_smarty_tpl->tpl_vars['voyage_id']->value;?>
+">
 		<tr>
 			<th></th>
 			<th></th>
 			<th></th>
 			<th></th>
 		</tr>
-		<tr>
+		<tr class="depRow">
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 		</tr>
-		<tr>
+		<tr class="depRow">
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 		</tr>
-		<tr>
+		<tr class="depRow">
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 		</tr>
-		<tr>
+		<tr class="depRow">
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
 			<td onclick="fill_cell(this)"></td>
@@ -130,7 +134,20 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
 	<div id="dashBoard">
 		<input type="button" value="Add row" onclick="addRow()"/>
 		<input type="button" value="Add column" onclick="addCol()"/>
+		<button id="gridSaveBtn" onclick="save_dependencies()">Save</button>
+		<div>
+			&nbsp;<br/>
+			<button onclick="window.location = '<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
+workspace/deleted_subvoyages/<?php echo $_smarty_tpl->tpl_vars['voyage_id']->value;?>
+'">Deletions</button>
+		</div>
 	</div>
+	<div id="gridMessage"></div>
+	<?php echo '<script'; ?>
+>
+		get_grid_data();
+	<?php echo '</script'; ?>
+>
 <?php
 }
 }

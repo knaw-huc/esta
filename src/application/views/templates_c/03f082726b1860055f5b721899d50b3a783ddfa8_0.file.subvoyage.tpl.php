@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.32, created on 2020-05-17 22:54:02
+/* Smarty version 3.1.32, created on 2020-07-29 12:36:56
   from '/Library/WebServer/Documents/esta/application/views/templates/editors/subvoyage.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.32',
-  'unifunc' => 'content_5ec1a46ab66936_58098671',
+  'unifunc' => 'content_5f215148a809a1_78800683',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '03f082726b1860055f5b721899d50b3a783ddfa8' => 
     array (
       0 => '/Library/WebServer/Documents/esta/application/views/templates/editors/subvoyage.tpl',
-      1 => 1589748837,
+      1 => 1596019012,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5ec1a46ab66936_58098671 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5f215148a809a1_78800683 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div id="heSubvoyage" data-action="<?php echo $_smarty_tpl->tpl_vars['sub_voyage_action']->value;?>
 ">
 	<div class="component" id="5eaac4f83afa7" data-name="subvoyage" data-order="1">
@@ -62,24 +62,24 @@ function content_5ec1a46ab66936_58098671 (Smarty_Internal_Template $_smarty_tpl)
 		<div class="element" data-name="sub_dept_place_standardized">
 			<div class="label">Place of departure standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_dept_place_standardized" data-validation-profile="5eaac4f83b6d2"
-										class="input_element">
+										id="sub_dept_place_standardized" data-table="slaves" data-validation-profile="5eaac4f83b6d2"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b6d2" class="errorMsg"></div>
 			</div>
 		</div>
 		<div class="element" data-name="sub_dept_region_standardized">
 			<div class="label">Region of departure standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_dept_region_standardized" data-validation-profile="5eaac4f83b6d7"
-										class="input_element">
+										id="sub_dept_region_standardized" data-table="slaves" data-validation-profile="5eaac4f83b6d7"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b6d7" class="errorMsg"></div>
 			</div>
 		</div>
 		<div class="element" data-name="sub_dept_polity_standardized">
 			<div class="label">Polity of departure standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_dept_polity_standardized" data-validation-profile="5eaac4f83b6dd"
-										class="input_element">
+										id="sub_dept_polity_standardized" data-table="slaves" data-validation-profile="5eaac4f83b6dd"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b6dd" class="errorMsg"></div>
 			</div>
 		</div>
@@ -158,24 +158,24 @@ function content_5ec1a46ab66936_58098671 (Smarty_Internal_Template $_smarty_tpl)
 		<div class="element" data-name="sub_arrival_place_standardized">
 			<div class="label">Place of arrival standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_arrival_place_standardized" data-validation-profile="5eaac4f83b711"
-										class="input_element">
+										id="sub_arrival_place_standardized" data-table="slaves" data-validation-profile="5eaac4f83b711"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b711" class="errorMsg"></div>
 			</div>
 		</div>
 		<div class="element" data-name="sub_arrival_region_standardized">
 			<div class="label">Region of arrival standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_arrival_region_standardized" data-validation-profile="5eaac4f83b717"
-										class="input_element">
+										id="sub_arrival_region_standardized" data-table="slaves" data-validation-profile="5eaac4f83b717"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b717" class="errorMsg"></div>
 			</div>
 		</div>
 		<div class="element" data-name="sub_arrival_polity_standardized">
 			<div class="label">Polity of arrival standardised</div>
 			<div class="control"><input type="text" size="100" data-reset-value="line" value=""
-										id="sub_arrival_polity_standardized" data-validation-profile="5eaac4f83b71c"
-										class="input_element">
+										id="sub_arrival_polity_standardized" data-table="slaves" data-validation-profile="5eaac4f83b71c"
+										class="input_element" data-auto="yes">
 				<div id="errorMsg_5eaac4f83b71c" class="errorMsg"></div>
 			</div>
 		</div>
@@ -304,48 +304,21 @@ function content_5ec1a46ab66936_58098671 (Smarty_Internal_Template $_smarty_tpl)
 	</div>
 	<div id="btnFrame">
 		<input type="button" value="Save" id="saveBtn" onclick="saveSubVoyage()"/>
-		<input type="button" value="Back" class="resetBtn"/>
+		<input type="button" value="Back" class="resetBtn" onclick="history.back()"/>
 		&nbsp;
 		<input type="button" value="Go top" class="appBtn" onclick="window.scrollTo(0,0)"/>
 		<div class="messageBox">&nbsp;</div>
 		<div id="tmpFormatter">
-			<table class="resultTable">
+			<table id="voyageActorTable" class="resultTable">
 				<tr>
 					<th>Actors</th>
 					<th></th>
 					<th></th>
-				</tr>
-				<tr>
-					<td>Captain</td>
-					<td id="captainCell"></td>
-					<td class="editIcon"><img src="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
-img/edit.png" height="16px" width="16px">
-					</td>
-				</tr>
-				<tr>
-					<td>Outfitter</td>
-					<td id="outfitterCell"></td>
-					<td class="editIcon"><img src="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
-img/edit.png" height="16px" width="16px">
-					</td>
-				</tr>
-				<tr>
-					<td>Investor</td>
-					<td id="investorCell"></td>
-					<td class="editIcon"><img src="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
-img/edit.png" height="16px" width="16px">
-					</td>
-				</tr>
-				<tr>
-					<td>Insurer</td>
-					<td id="insurerCell"></td>
-					<td class="editIcon"><img src="<?php echo $_smarty_tpl->tpl_vars['home_path']->value;?>
-img/edit.png" height="16px" width="16px">
-					</td>
+					<th><a href="javascript:new_actor('voyageActor', editVars.currentVoyage)">+</a></th>
 				</tr>
 			</table>
 		</div>
-		<input id="mutBtn" type="button" value="Mutation history" onclick="alert('This function is not active yet.');"/>
+		<input id="mutBtn" type="button" value="Mutation history" onclick="show_mutations()"/>
 	</div>
 </div>
 <?php }
