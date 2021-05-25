@@ -44,7 +44,7 @@
 		</div>
 		<hr/>
 		<div class="element" data-name="sub_dept_date_as_source">
-			<div class="label">Source departure date</div>
+			<div class="label">Departure date as in source</div>
 			<div class="control"><input type="text" size="45" data-reset-value="line" value=""
 										id="sub_dept_date_as_source" data-validation-profile="5eaac4f83b6e2"
 										class="input_element">
@@ -116,7 +116,7 @@
 		</div>
 	<hr/>
 		<div class="element" data-name="sub_arrival_date_as_source">
-			<div class="label">Arrival date source</div>
+			<div class="label">Arrival date as in source</div>
 			<div class="control"><input type="text" size="45" data-reset-value="line" value=""
 										id="sub_arrival_date_as_source" data-validation-profile="5eaac4f83b721"
 										class="input_element">
