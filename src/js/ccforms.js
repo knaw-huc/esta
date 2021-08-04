@@ -16,7 +16,7 @@ var currentFormChanged = false;
 
 var activeTab = "profileXML";
 
-var home = 'https://esta.sd.di.huc.knaw.nl';
+var home = 'https://esta.sd.di.huc.knaw.nl/';
 var subVoyageSwapped = false;
 
 var hucForms = {
@@ -1378,5 +1378,13 @@ function setFieldValue(obj, value) {
 	$(obj).val(value);
 	$(obj).removeClass('input_element');
 	$(obj).addClass('changed_input_element');
+}
+
+function gotopage(obj, range) {
+	if (range = 'allRecs') {
+		window.location.href = home + '/workspace/voyages/' + obj.value;
+	} else {
+		window.location.href = home + '/workspace/myvoyages/' + obj.value;
+	}
 }
 

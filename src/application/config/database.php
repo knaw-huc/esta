@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'esta_mysql',
-	'username' => 'root',
-	'password' => 'root',
+	'hostname' => 'mysql-master.diginfra.net',
+	'username' => 'esta_user',
+	'password' => 'v43M2xc6DJ28rR7In5m3wHs4SU',
 	'database' => 'esta',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
